@@ -1,0 +1,75 @@
+<% layout("/layouts/boilerplate") %>
+    <div class="row mt-3">
+      <div class="col-8 offset-3">
+      <h3><%= listing.title %></h3>
+    </div>
+
+    <div class="card col-6 offset-3">
+        <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
+        <div class="card-body">
+          <p class="card-text">
+            <strong>Owner:</strong> <%= listing.owner ? listing.owner.username : "Deleted User" %> <br>
+            <%= listing.description %> <br>
+            &#8377; <%= listing.price != null ? listing.price.toLocaleString("en-IN") : "N/A" %> <br>
+            <%= listing.location %>, <%= listing.country %>
+
+          </p>
+        </div>
+    </div>
+    <br />
+    <% if(currentUser && listing.owner && currentUser._id.equals(listing.owner._id)) { %>
+    <div class="d-flex gap-3 offset-3">
+    
+      <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit</a>
+    
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+        <button class="btn btn-danger">Delete</button>
+      </form>
+    
+    </div>
+    <% } %>
+    <div class="col-8 offset-3 mb-3">
+      <hr>
+      <% if(currentUser) { %>
+      <a href="/listings/<%= listing._id %>/reviews/new" class="btn btn-success">
+        Leave a Review
+      </a>
+      <% } %>
+    </div>
+    <div class="col-8 offset-3 mt-4">
+    
+      <h3>All Reviews</h3>
+    
+      <% if(!listing.reviews || listing.reviews.length===0){ %>
+        <p>No reviews yet.</p>
+        <% } %>
+          <% for(let review of listing.reviews){ %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <p class="card-title card-text"><%= review.author ? review.author.username : "Deleted User" %></p>
+                <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
+                <p class="card-text">
+                  <%= review.comment %>
+                </p>
+              </div>
+              <% if(currentUser && review.author && currentUser._id.equals(review.author._id || review.author)) { %>
+              <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                <button class="btn btn-sm btn-dark">Delete</button>
+              </form>
+              <% } %>
+            </div>
+            <% } %>
+      <hr>
+      <div class="mt-4 mb-4">
+        <h3>Where you'll be</h3>
+        <div
+          id="map"
+          data-lat="<%= typeof listing.latitude === 'number' ? listing.latitude : 28.6139 %>"
+          data-lng="<%= typeof listing.longitude === 'number' ? listing.longitude : 77.2090 %>"
+          data-popup="<%= `${listing.title} - ${listing.location}, ${listing.country}` %>"
+        >
+          <p class="text-muted p-2">Loading map...</p>
+        </div>
+      </div>
+    </div>
+    </div>

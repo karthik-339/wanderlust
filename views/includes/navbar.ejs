@@ -1,0 +1,79 @@
+<style>
+    .navbar .container-fluid {
+        position: relative;
+    }
+    .search-btn {
+        background-color: #fe424d;
+        color: white;
+        border-radius: 25px;
+        padding: 0 1rem 0 1rem;
+    }
+    .search-btn:hover {
+        background-color: #fe424d;
+        color: white;
+    }
+    .search-btn i{
+        display: inline;
+        margin-right: 0.5rem;
+    }
+    .search-input {
+        border-radius: 25px;
+        padding: 0.5rem 3rem 0.5rem 3rem;
+        font-size: 1rem;
+    }
+    .navbar-search-wrap {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .navbar-search-wrap form {
+        min-width: 420px;
+    }
+    @media (max-width: 991.98px) {
+        .navbar-search-wrap {
+            position: static;
+            transform: none;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .navbar-search-wrap form {
+            min-width: 0;
+            width: 100%;
+        }
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav me-auto">
+                <a class="nav-link active" href="/">Home</a>
+                <a class="nav-link" href="/listings">All Listings</a>
+                <% if(currentUser) { %>
+                    <a class="nav-link" href="/listings/new">Add new Listing</a>
+                <% } %>
+            </div>
+            <div class="navbar-nav navbar-search-wrap">
+                <form class="d-flex" role="search" action="/listings" method="GET">
+                    <input class="form-control me-2 search-input" type="search" placeholder="Search destinations" name="search" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+                    <button class="btn search-btn" type="submit"><i class= "fa-solid fa-magnifying-glass"></i>Search</button>
+                </form>
+            </div>
+            <div class="navbar-nav">
+                <% if(currentUser) { %>
+                    <span class="navbar-text me-2">Hi, <%= currentUser.username %></span>
+                    <form action="/logout" method="POST" class="d-flex align-items-center">
+                        <button class="nav-link btn btn-link p-0" type="submit">Logout</button>
+                    </form>
+                <% } else { %>
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                    <a class="nav-link" href="/login">Login</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</nav>

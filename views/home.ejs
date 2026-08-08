@@ -1,0 +1,55 @@
+<% layout("/layouts/boilerplate") %>
+
+    <!-- FEATURED LISTINGS -->
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Featured Stays</h2>
+
+        <div class="row justify-content-center">
+            <% for(let listing of listings){ %>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card listing-card h-100">
+                        <img src="<%= listing.image.url %>" class="card-img-top home-img">
+
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= listing.title %>
+                            </h5>
+
+                            <p class="text-muted">
+                                <%= listing.location %>, <%= listing.country %>
+                            </p>
+
+                            <p class="fw-bold">
+                                ₹ <%= listing.price != null ? listing.price.toLocaleString("en-IN") : "N/A" %> / night
+                            </p>
+
+                            <a href="/listings/<%= listing._id %>" class="btn btn-dark stretched-link">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <% } %>
+        </div>
+    </div>
+
+
+    <!-- EXPLORE BUTTON -->
+    <div class="text-center my-5">
+        <a href="/listings" class="btn btn-dark btn-lg">
+            Explore Listings
+        </a>
+    </div>
+
+
+    <!-- CALL TO ACTION -->
+    <div class="cta-section text-center mt-5 p-5">
+        <h2>Want to host your place?</h2>
+        <p>Share your property and start earning today.</p>
+
+        <a href="/listings/new" class="btn btn-primary btn-lg">
+            Add Your Listing
+        </a>
+    </div>
