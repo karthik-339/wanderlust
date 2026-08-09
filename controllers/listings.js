@@ -2,8 +2,6 @@ const Listing = require("../models/listing");
 const ExpressError = require("../utils/ExpressError.js");
 const ITEMS_PER_PAGE = 9;
 
-const DEFAULT_IMAGE_URL = "https://images.unsplash.com/photo-1501854140801-50d01698950b";
-
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const geocodeLocation = async (location, country) => {
